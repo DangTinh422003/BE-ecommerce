@@ -1,4 +1,7 @@
 import mongoose from "mongoose";
+import config from "../configs/mongo.config.js";
+
+const dbConnection = `mongodb+srv://${config.db.url}&appName=${config.db.appName}`;
 
 class Database {
   constructor() {
@@ -9,10 +12,7 @@ class Database {
     switch (type) {
       case "mongo":
         mongoose
-          .connect("mongodb://localhost:27017/test", {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-          })
+          .connect(dbConnection)
           .then(() => {
             console.log("Connected to MongoDB");
           })
@@ -20,6 +20,8 @@ class Database {
             console.log("Error connecting to MongoDB");
             console.error(error);
           });
+        break;
+      case "mysql":
         break;
       default:
         break;
